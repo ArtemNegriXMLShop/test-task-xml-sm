@@ -1,19 +1,14 @@
 <?php
-/**
- * @author Timofey Khokhlovskii <timofey.khokhlovskii@internetstores.com>
- */
 
 namespace Orders;
 
-
 class OrderDeliveryDetails
 {
-	public static function getDeliveryDetails($productsCount)
-	{
-		if ($productsCount > 1) {
-			return 'Order delivery time: 2 days';
-		} else {
-			return 'Order delivery time: 1 day';
-		}
-	}
+    public function getDeliveryDetails($productsCount): string
+    {
+        return match ($productsCount) {
+            1 => 'Order delivery time: 1 day',
+            default => 'Order delivery time: 2 days',
+        };
+    }
 }

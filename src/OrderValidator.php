@@ -2,39 +2,51 @@
 
 namespace Orders;
 
-
 class OrderValidator
 {
-	public $minimumAmount;
+    public int $minimumAmount;
 
-	public function setMinimumAmount(int $amount)
-	{
-		$this->minimumAmount = $amount;
-	}
-
-    public static function create()
+    public static function create(): OrderValidator
     {
-    	$validator = new self();
-	    $validator->setMinimumAmount(file_get_contents('input/minimumAmount'));
-    	return $validator;
+        $validator = new self();
+        $minimumAmountData = $validator->getMinimumAmountData('input/minimumAmount');
+        $validator->setMinimumAmount($minimumAmountData);
+        return $validator;
     }
 
-	/**
-	 * @param $order Order
-	 */
-    public function validate($order)
+    private function getMinimumAmountData(string $path): string
     {
-	    $is_valid = true;
-	    if (!is_string($order->name) || !(strlen($order->name) > 2) || !($order->totalAmount > 0) || $order->totalAmount < $this->minimumAmount) {
-		    $is_valid = false;
-	    }
+        $minimumAmountData = file_get_contents($path);
+        if ($minimumAmountData === false) {
+            throw new \RuntimeException('Error in create OrderValidator');
+        }
 
-	    foreach ($order->items as $item_id) {
-		    if (!is_int($item_id)) {
-			    $is_valid = false;
-		    }
-	    }
+        return $minimumAmountData;
+    }
 
-	    $order->is_valid = $is_valid;
+    public function setMinimumAmount(int $amount): void
+    {
+        $this->minimumAmount = $amount;
+    }
+
+    public function validate(Order $order): void
+    {
+        $is_valid = true;
+
+        if (!is_string($order->name) || !(strlen($order->name) > 2)) {
+            $is_valid = false;
+        }
+
+        if (!($order->totalAmount > 0) || $order->totalAmount < $this->minimumAmount) {
+            $is_valid = false;
+        }
+
+        foreach ($order->items as $item_id) {
+            if (!is_int($item_id)) {
+                $is_valid = false;
+            }
+        }
+
+        $order->is_valid = $is_valid;
     }
 }

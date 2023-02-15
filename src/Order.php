@@ -2,70 +2,54 @@
 
 namespace Orders;
 
-
 class Order
 {
-	/**
-	 * @var int
-	 */
-	public $order_id;
-	/**
-	 * @var bool
-	 */
-	public $is_manual = false;
-	/**
-	 * @var string
-	 */
-	public $name;
-	/**
-	 * @var array
-	 */
-	public $items;
-	/**
-	 * @var float
-	 */
-	public $totalAmount;
-	/**
-	 * @var string
-	 */
-	public  $deliveryDetails;
+    public int $order_id;
 
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name)
-	{
-		$this->name = $name;
-	}
+    public bool $is_manual = false;
 
-	/**
-	 * @param array $items
-	 */
-	public function setItems(array $items)
-	{
-		$this->items = $items;
-	}
+    public string $name;
 
-	/**
-	 * @param float $totalAmount
-	 */
-	public function setTotalAmount(float $totalAmount)
-	{
-		$this->totalAmount = $totalAmount;
-	}
+    public array $items;
 
-	/**
-	 * @param int $order_id
-	 */
-	public function setOrderId(int $order_id)
-	{
-		$this->order_id = $order_id;
-	}
+    public float $totalAmount;
 
-	public $is_valid;
+    public string $deliveryDetails;
 
-	public function setDeliveryDetails($deliveryDetails)
-	{
-		$this->deliveryDetails = $deliveryDetails;
-	}
+    public bool $is_valid;
+
+    public function setName(string $name): Order
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function setItems(array $items): Order
+    {
+        $this->items = $items;
+        return $this;
+    }
+
+    public function setTotalAmount(float $totalAmount): Order
+    {
+        $this->totalAmount = $totalAmount;
+        return $this;
+    }
+
+    public function setOrderId(int $order_id): Order
+    {
+        $this->order_id = $order_id;
+        return $this;
+    }
+
+    public function setDeliveryDetails($deliveryDetails): Order
+    {
+        $this->deliveryDetails = $deliveryDetails;
+        return $this;
+    }
+
+    public function getCountItems(): int
+    {
+        return count($this->items);
+    }
 }

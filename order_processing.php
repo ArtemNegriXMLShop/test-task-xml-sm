@@ -12,5 +12,11 @@ $order->setName('John');
 $order->setItems([ 6654 ]);
 $order->setTotalAmount(346.2);
 
+//$order = (new Order())
+//    ->setOrderId(2)
+//    ->setName('John')
+//    ->setItems([6654])
+//    ->setTotalAmount(346.2);
+
 $orderProcessor = new OrderProcessor(new OrderDeliveryDetails());
 $orderProcessor->process($order);
